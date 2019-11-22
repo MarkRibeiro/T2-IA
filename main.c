@@ -1,7 +1,7 @@
 #include"main.h"
 
 int main( int argc, char *argv[ ] ) {
-    int algoritmo;
+    //int algoritmo;
     FILE *f;
 
     if( (f = fopen("iris.data", "r") ) == NULL) {
