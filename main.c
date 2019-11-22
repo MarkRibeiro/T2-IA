@@ -43,7 +43,6 @@ int contains( char *string, char *substring ) {
 
  
 void atribuindoInfosArquivo( infArq *cmds, FILE *f ) {
-    char linha[50];
     char tipo[20];
     int aux = 0;
 
