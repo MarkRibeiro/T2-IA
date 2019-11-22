@@ -2,7 +2,7 @@
 
 int main( int argc, char *argv[ ] ) {
     int algoritmo;
-    FILE *f = fopen("iris.data", "r") ;
+    FILE *f;
 
     if( (f = fopen("iris.data", "r") ) == NULL) {
             printf("Erro na abertura do arquivo\n");
@@ -26,36 +26,15 @@ int main( int argc, char *argv[ ] ) {
 
     // Alocando estrutura com infos do arq inserido
     
-    infArq *cmds = (infArq*) malloc(149 * sizeof(infArq));
-    //cmds->sepalLength = (float) malloc(sizeof(float));
-    //cmds->sepalWidth = (float) malloc(sizeof(float));
-    //cmds->petalLength = (float) malloc(sizeof(float));
-    //cmds->petalWidth = (float) malloc(sizeof(float));
-    //cmds->tipo = (int) malloc(sizeof(int));
-
+    infArq *cmds = (infArq*) malloc(150 * sizeof(infArq));
     //Atribuindo infos do arquivo
-    atribuindoInfosArquivo(&cmds, f);
-    // Imprimir Dados de estrutura
-    /*
-    Solucao *sol;
-    if( algoritmo == ALGORITMO_GENETICO ) {
-        sol = algoritmoGenetico(cmds->edgeSection, cmds->dimension );
-        printf("Solucao:\n=>distancia: %d\n=>cidades:", sol->distancia);
-        for( int i = 0; i < cmds->dimension; i++ ) {
-            printf(" %d ", sol->cidades[i]);
-        }
-        printf("\n");
-    } else if( algoritmo == SIMULATED_ANNEALING ){
-        sol = simulatedAnnealing( cmds->edgeSection, cmds->dimension );
-        printf("Solucao:\n=>distancia: %d\n=>cidades:", sol[0].distancia);
-        for( int i = 0; i < cmds->dimension; i++ ) {
-            printf(" %d ", sol[0].cidades[i]);
-        }
-        printf("\n");
+    atribuindoInfosArquivo( cmds, f);
+    for( int aux = 0; aux < 150; aux++ ) {
+        printf( "%f,%f,%f,%f\n", (cmds[aux].sepalLength), (cmds[aux].sepalWidth), (cmds[aux].petalLength), (cmds[aux].petalWidth));
     }
-    escreveArquivo( sol, &cmds, algoritmo );
-    free(sol);
-    */
+
+    free(cmds);
+
     fclose(f);
     return 0;
 }
@@ -69,16 +48,13 @@ int contains( char *string, char *substring ) {
 }
 
  
-void atribuindoInfosArquivo( infArq **cmds, FILE *f ) {
+void atribuindoInfosArquivo( infArq *cmds, FILE *f ) {
     char linha[50];
     int pos[4];
     char tipo[20];
     int aux = 0;
 
-    while( fscanf (f, "%f,%f,%f,%f,%s\n", &cmds[aux]->sepalLength, &cmds[aux]->sepalWidth, &cmds[aux]->petalLength, &cmds[aux]->petalWidth, tipo) != EOF ){
+    while( fscanf (f, "%f,%f,%f,%f,%s\n", &(cmds[aux].sepalLength), &(cmds[aux].sepalWidth), &(cmds[aux].petalLength), &(cmds[aux].petalWidth), tipo) != EOF ){
         aux++;
     }
-
-    printf("%f\n",  cmds[148]->sepalLength);
-
 }
