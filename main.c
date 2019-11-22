@@ -24,17 +24,11 @@ int main( int argc, char *argv[ ] ) {
         return 0;
     } 
 
-    // Alocando estrutura com infos do arq inserido
-    
     infArq *cmds = (infArq*) malloc(150 * sizeof(infArq));
-    //Atribuindo infos do arquivo
+
     atribuindoInfosArquivo( cmds, f);
-    for( int aux = 0; aux < 150; aux++ ) {
-        printf( "%f,%f,%f,%f\n", (cmds[aux].sepalLength), (cmds[aux].sepalWidth), (cmds[aux].petalLength), (cmds[aux].petalWidth));
-    }
 
     free(cmds);
-
     fclose(f);
     return 0;
 }
@@ -50,11 +44,19 @@ int contains( char *string, char *substring ) {
  
 void atribuindoInfosArquivo( infArq *cmds, FILE *f ) {
     char linha[50];
-    int pos[4];
     char tipo[20];
     int aux = 0;
 
     while( fscanf (f, "%f,%f,%f,%f,%s\n", &(cmds[aux].sepalLength), &(cmds[aux].sepalWidth), &(cmds[aux].petalLength), &(cmds[aux].petalWidth), tipo) != EOF ){
+        if(strcmp(tipo,"Iris-setosa") == 0){
+            cmds[aux].tipo = IRIS_SETOSA;
+        } else if(strcmp(tipo,"Iris-versicolor") == 0) {
+            cmds[aux].tipo = IRIS_VERSICOLOUR;                    
+        } else if(strcmp(tipo,"Iris-virginica") == 0) {
+            cmds[aux].tipo = IRIS_VIRGINICA;
+        } else {
+            printf("Erro na atribuicao do tipo\n");
+        }
         aux++;
     }
 }
