@@ -25,7 +25,7 @@ int main( int argc, char *argv[ ] ) {
 
     // Alocando estrutura com infos do arq inserido      
     infArq *cmds = (infArq*) malloc(150 * sizeof(infArq));
-    //Atribuindo infos do arquivo
+
     atribuindoInfosArquivo( cmds, f);
     
     
@@ -49,7 +49,6 @@ int main( int argc, char *argv[ ] ) {
     //printaArquivo( cmds );
 
     free(cmds);
-
     fclose(f);
     return 0;
 }
@@ -77,8 +76,6 @@ int contains( char *string, char *substring ) {
 
  
 void atribuindoInfosArquivo( infArq *cmds, FILE *f ) {
-    char linha[50];
-    int pos[4];
     char tipo[20];
     int aux = 0;
 
