@@ -1,14 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-struct infoArquivo {
-	float sepalLength;
-	float sepalWidth;
-	float petalLength;
-	float petalWidth;
-	int tipo;
-}; typedef struct infoArquivo infArq;
+#include "algoritmoKNN.h"
 
 enum Algoritmo {
     ALG1,
@@ -18,3 +11,5 @@ enum Algoritmo {
 int contains( char *string, char *substring );
 
 void atribuindoInfosArquivo( infArq *cmds, FILE *f );
+
+void printaArquivo( infArq *cmds );
