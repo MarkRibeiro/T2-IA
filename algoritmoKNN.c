@@ -12,6 +12,8 @@
 
 const int NUM_TIPOS = 3;
 
+int DEBUG;
+
 /* estrutura.
  * 
  * Dado {
@@ -26,23 +28,26 @@ const int NUM_TIPOS = 3;
  * 
  */
 
-int algoritmoKNN( infArq *todos, int qtd, int idx ) {
+int algoritmoKNN( infArq *todos, int qtd, int idx, int debug ) {
+    DEBUG = debug;
     int *dadosProximos = (int*)malloc(sizeof(int)*qtd);
     dadosProximos = dadosMaisProximos( idx, todos, qtd );
     int *contadorPorTipo = (int*)malloc(sizeof(int)*NUM_TIPOS);
-    printf("index selecionado %d e seus dados:\n", idx);
-    printf( "%f,%f,%f,%f,", (todos[idx].sepalLength), (todos[idx].sepalWidth), (todos[idx].petalLength), (todos[idx].petalWidth));
-    if( todos[idx].tipo == IRIS_SETOSA ) {
-        printf("IRIS_SETOSA\n");
-    } else if( todos[idx].tipo == IRIS_VERSICOLOUR ) {
-        printf("IRIS_VERSICOLOUR\n");
-    } else if( todos[idx].tipo == IRIS_VIRGINICA ) {
-        printf("IRIS_VIRGINICA\n");
-    }
-    printf("======================\n");
-    printf("próximos %d index:\n", qtd);
-    for( int i = 0; i < qtd; i++ ) {
-        printf("index: %d\n", dadosProximos[i]);
+    if( DEBUG ) {
+        printf("index selecionado %d e seus dados:\n", idx);
+        printf( "%f,%f,%f,%f,", (todos[idx].sepalLength), (todos[idx].sepalWidth), (todos[idx].petalLength), (todos[idx].petalWidth));
+        if( todos[idx].tipo == IRIS_SETOSA ) {
+            printf("IRIS_SETOSA\n");
+        } else if( todos[idx].tipo == IRIS_VERSICOLOUR ) {
+            printf("IRIS_VERSICOLOUR\n");
+        } else if( todos[idx].tipo == IRIS_VIRGINICA ) {
+            printf("IRIS_VIRGINICA\n");
+        }
+        printf("======================\n");
+        printf("próximos %d index:\n", qtd);
+        for( int i = 0; i < qtd; i++ ) {
+            printf("index: %d\n", dadosProximos[i]);
+        }
     }
     for( int i = 0; i < qtd; i++ ) {
         if( todos[dadosProximos[i]].tipo == IRIS_SETOSA ) {
@@ -54,10 +59,11 @@ int algoritmoKNN( infArq *todos, int qtd, int idx ) {
         }
     }
     
-    printf("contadores SETOSA = %d\n", contadorPorTipo[IRIS_SETOSA]);
-    printf("contadores VERSICOLOUR = %d\n", contadorPorTipo[IRIS_VERSICOLOUR]);
-    printf("contadores VIRGINICA = %d\n", contadorPorTipo[IRIS_VIRGINICA]);
-    
+    if( DEBUG ) {
+        printf("contadores SETOSA = %d\n", contadorPorTipo[IRIS_SETOSA]);
+        printf("contadores VERSICOLOUR = %d\n", contadorPorTipo[IRIS_VERSICOLOUR]);
+        printf("contadores VIRGINICA = %d\n", contadorPorTipo[IRIS_VIRGINICA]);
+    }
     int tipoDoDado = 0;
     int maior = 0;
     for( int i = 0; i < NUM_TIPOS; i++ ) {
@@ -94,23 +100,22 @@ int *dadosMaisProximos( int dado, infArq *todos, int qtd ) {
     double *distanciaDosProximos = (double*)malloc(sizeof(double)*qtd);
     preencheComInt( indexDosProximos, qtd, 0 );
     preencheComDouble( distanciaDosProximos, qtd, 99.0 );
-    int entrei = 0;
     for( int aux = 0; aux < 150; aux++ ) {
         if( dado == aux ) {
             continue;
         }
         double distancia = distanciaDados( todos[dado], todos[aux] );
-        printf("distancia: %lf\n", distancia);
+//         printf("distancia: %lf\n", distancia);
         int indexMaior = retornaIndexMaior( distanciaDosProximos, qtd );
         if( distancia < distanciaDosProximos[indexMaior] ) {
-            entrei++;
-            printf("entrei %d\n", entrei);
             indexDosProximos[indexMaior] = aux;
             distanciaDosProximos[indexMaior] = distancia;
         }
     }
-    for( int i = 0; i < qtd; i++ ) {
-        printf("distancia[%d] = %lf\n", i, distanciaDosProximos[i]);
+    if( DEBUG ) {
+        for( int i = 0; i < qtd; i++ ) {
+            printf("distancia[%d] = %lf\n", i, distanciaDosProximos[i]);
+        }
     }
     return indexDosProximos;
 }
