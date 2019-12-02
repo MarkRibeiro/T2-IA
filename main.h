@@ -8,12 +8,6 @@ enum Algoritmo {
     ALG2
 };
 
-enum Tipo {
-	IRIS_SETOSA, 
-	IRIS_VERSICOLOUR,
-	IRIS_VIRGINICA
-};
-
 int contains( char *string, char *substring );
 
 void atribuindoInfosArquivo( infArq *cmds, FILE *f );

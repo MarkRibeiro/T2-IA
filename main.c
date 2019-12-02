@@ -31,9 +31,9 @@ int main( int argc, char *argv[ ] ) {
     
     if( algoritmo == ALG1 ) {
     // int qtd = QUANTIDADE DE ELEMENTOS PRÓXIMOS --> estou marretando no código, mas podemos colocar como valor de entrada.
-        int qtd = 39;
+        int qtd = 11;
     // int indx = INDEX DO ELEMENTO A SER TESTADO E VERIFICADO. --> temos que entender o que precisaremos fazer. se vao ser varios ou soment 1 elemento
-        int indx = 50;
+        int indx = 78;
         int result = algoritmoKNN( cmds, qtd, indx );
         
         if( result == IRIS_SETOSA ) {

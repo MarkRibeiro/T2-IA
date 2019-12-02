@@ -54,13 +54,13 @@ int algoritmoKNN( infArq *todos, int qtd, int idx ) {
         }
     }
     
-    printf("contadores Setosa = %d\n", contadorPorTipo[IRIS_SETOSA]);
+    printf("contadores SETOSA = %d\n", contadorPorTipo[IRIS_SETOSA]);
     printf("contadores VERSICOLOUR = %d\n", contadorPorTipo[IRIS_VERSICOLOUR]);
     printf("contadores VIRGINICA = %d\n", contadorPorTipo[IRIS_VIRGINICA]);
     
     int tipoDoDado = 0;
+    int maior = 0;
     for( int i = 0; i < NUM_TIPOS; i++ ) {
-        int maior = 0;
         if( contadorPorTipo[i] > maior ) {
             tipoDoDado = i;
             maior = contadorPorTipo[i];
@@ -76,47 +76,53 @@ double distanciaDados( infArq d1, infArq d2) {
     return sqrt(ret);
 }
 
-int organizaVetorProximos( int *vetorProximos, int *distanciaDosProximos, int qtd ) {
-    int j = 0;
-    for( int i = 0; j < qtd; i++ ) {
-        j = i + 1;
-        if( distanciaDosProximos[i] < distanciaDosProximos[j] ) {
-            // vetor index
-            int aux = vetorProximos[j];
-            vetorProximos[j] = vetorProximos[i];
-            vetorProximos[i] = aux;
-            // vetor distancias
-            aux = distanciaDosProximos[j];
-            distanciaDosProximos[j] = distanciaDosProximos[i];
-            distanciaDosProximos[i] = aux;
+int retornaIndexMaior( double *distanciaDosProximos, int qtd ) {
+    double maior = 0.0;
+    int indexMaior = 0;
+    for( int i = 0; i < qtd; i++ ) {
+        if( distanciaDosProximos[i] > maior ) {
+            maior = distanciaDosProximos[i];
+            indexMaior = i;
         }
     }
+    return indexMaior;
+    
 }
 
 int *dadosMaisProximos( int dado, infArq *todos, int qtd ) {
     int *indexDosProximos = (int*)malloc(sizeof(int)*qtd);
-    int *distanciaDosProximos = (int*)malloc(sizeof(int)*qtd);
-    preencheCom( indexDosProximos, qtd, 0 );
-    preencheCom( distanciaDosProximos, qtd, 99 );
+    double *distanciaDosProximos = (double*)malloc(sizeof(double)*qtd);
+    preencheComInt( indexDosProximos, qtd, 0 );
+    preencheComDouble( distanciaDosProximos, qtd, 99.0 );
+    int entrei = 0;
     for( int aux = 0; aux < 150; aux++ ) {
         if( dado == aux ) {
             continue;
         }
         double distancia = distanciaDados( todos[dado], todos[aux] );
-        //printf("distancia: %lf\n", distancia);
-        organizaVetorProximos( indexDosProximos, distanciaDosProximos, qtd );
-        if( distancia < distanciaDosProximos[0] ) {
-            indexDosProximos[0] = aux;
-            distanciaDosProximos[0] = distancia;
+        printf("distancia: %lf\n", distancia);
+        int indexMaior = retornaIndexMaior( distanciaDosProximos, qtd );
+        if( distancia < distanciaDosProximos[indexMaior] ) {
+            entrei++;
+            printf("entrei %d\n", entrei);
+            indexDosProximos[indexMaior] = aux;
+            distanciaDosProximos[indexMaior] = distancia;
         }
+    }
+    for( int i = 0; i < qtd; i++ ) {
+        printf("distancia[%d] = %lf\n", i, distanciaDosProximos[i]);
     }
     return indexDosProximos;
 }
-
-void preencheCom( int *indexDosProximos, int tam, int valor ) {
+void preencheComInt( int *indexDosProximos, int tam, int valor ) {
     for( int i = 0; i < tam ; i++ ) {
         indexDosProximos[i] = valor;
     }
 }
 
+void preencheComDouble( double *indexDosProximos, int tam, double valor ) {
+    for( int i = 0; i < tam ; i++ ) {
+        indexDosProximos[i] = valor;
+    }
+}
 
