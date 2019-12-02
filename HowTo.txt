@@ -1,0 +1,10 @@
+Para compilar:
+
+gcc -o main main.c algoritmoKNN.c -lm
+
+
+para executar:
+
+./main alg1
+ou
+./main alg2
