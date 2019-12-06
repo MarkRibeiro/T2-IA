@@ -6,19 +6,29 @@ int main( int argc, char *argv[ ] ) {
     int qtdElem;
     int qtdElemTreinamento;
     int qtd, attNum;
+    int entradaCerta = 1; // 0 - falso.  1 - correto
     if( (f = fopen("iris.data", "r") ) == NULL) {
         printf("Erro na abertura do arquivo\n");
         return 0;
     }
-    int entradaCerta = 1; // 0 - falso.  1 - correto
-
+    int tamCombinacao = argc-4;
+    int *combinacao = (int*)malloc(sizeof(int)*(tamCombinacao));
     if( contains(argv[1], "knn" ) ) {
         algoritmo = ALG1;
-        if( argc != 4 ) {
+        if( argc < 5 ) {
             entradaCerta = 0;
         }
         qtdElem = atoi(argv[2]);
         qtdElemTreinamento = atoi(argv[3]);
+        
+        int aux = 0;
+        for( int i = 4; i < argc; i++ ) {
+            combinacao[aux] = atoi(argv[i]);
+            if( combinacao[aux] > 4  || combinacao[aux] < 1) {
+                entradaCerta = 0;
+            }
+            aux++;
+        }
     } else if( contains(argv[1], "alg2" ) ) {
         algoritmo = ALG2;
         attNum = atoi(argv[2]);
@@ -27,7 +37,7 @@ int main( int argc, char *argv[ ] ) {
     }
     
     if( !entradaCerta ) {
-        printf("Execute o programa assim:\nPara AlgKNN:\n> ./main knn <num_elementos> <num_elementos_treinamento>\n> algoritmo pode ser alg1 ou alg2.\nEX: ./main alg1\n\n");
+        printf("Execute o programa assim:\nPara AlgKNN:\n> ./main knn <num_elementos> <num_elementos_treinamento> <combinacao_de_atributos>\n=> Combinacao de atributos define quais atributos você quer usar: 1-Sepal Length 2-Sepal Width 3- Petal Length 4- Petal Width.\n\tVocê pode utilizar a combinacao que quiser.\n.\nEX1: ./main knn 10 100 3 4\n==> Para rodar o KNN, buscando 10 elementos, com 100 elementos no conjunto de treino e utilizando os atributos Petal para tal.\nEX2: ./main knn 10 100 1 2 3\n==> Para rodar o KNN, buscando 10 elementos, com 100 elementos no conjunto de treino e utilizando os atributos Sepal e Petal Length para tal.\n");
         return 0;
     }
 
@@ -44,7 +54,7 @@ int main( int argc, char *argv[ ] ) {
             // int indx = INDEX DO ELEMENTO A SER TESTADO E VERIFICADO. --> temos que entender o que precisaremos fazer. se vao ser varios ou soment 1 elemento
             //int indx = 78;
             int debug = 0;
-            int result = algoritmoKNN( cmds, qtdElem, qtdElemTreinamento, idx, debug );
+            int result = algoritmoKNN( cmds, qtdElem, qtdElemTreinamento, idx, debug, combinacao, tamCombinacao );
             if( debug ) {
                 if( result == IRIS_SETOSA ) {
                     printf(" index %d é IRIS SETOSA \n", idx);

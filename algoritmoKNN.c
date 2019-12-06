@@ -28,10 +28,10 @@ int DEBUG;
  * 
  */
 
-int algoritmoKNN( infArq *todos, int qtd, int qtdElemTreinamento, int idx, int debug ) {
+int algoritmoKNN( infArq *todos, int qtd, int qtdElemTreinamento, int idx, int debug, int *combinacao, int tamCombinacao ) {
     DEBUG = debug;
     int *dadosProximos = (int*)malloc(sizeof(int)*qtd);
-    dadosProximos = dadosMaisProximos( idx, todos, qtd, qtdElemTreinamento );
+    dadosProximos = dadosMaisProximos( idx, todos, qtd, qtdElemTreinamento, combinacao, tamCombinacao );
     int *contadorPorTipo = (int*)malloc(sizeof(int)*NUM_TIPOS);
     if( DEBUG ) {
         printf("index selecionado %d e seus dados:\n", idx);
@@ -76,9 +76,19 @@ int algoritmoKNN( infArq *todos, int qtd, int qtdElemTreinamento, int idx, int d
 }
 
 
-double distanciaDados( infArq d1, infArq d2) {
-    double ret = pow( d1.sepalLength- d2.sepalLength , 2 ) + pow( d1.sepalWidth - d2.sepalWidth, 2 ) +
-    pow( d1.petalLength - d2.petalLength, 2 ) + pow( d1.petalWidth - d2.petalWidth, 2 ); 
+double distanciaDados( infArq d1, infArq d2, int *combinacao, int tamCombinacao ) {
+    double ret = 0;
+    for( int i = 0; i < tamCombinacao; i++ ) {
+        if( combinacao[i] == 1 ) {
+            ret += pow( d1.sepalLength- d2.sepalLength , 2 );
+        } else if( combinacao[i] == 2 ) {
+            ret += pow( d1.sepalWidth - d2.sepalWidth, 2 );
+        } else if( combinacao[i] == 3 ) {
+            ret += pow( d1.petalLength - d2.petalLength, 2 );
+        } else if( combinacao[i] == 4 ) {
+            ret += pow( d1.petalWidth - d2.petalWidth, 2 );
+        }
+    }
     return sqrt(ret);
 }
 
@@ -95,7 +105,7 @@ int retornaIndexMaior( double *distanciaDosProximos, int qtd ) {
     
 }
 
-int *dadosMaisProximos( int dado, infArq *todos, int qtd, int qtdElemTreinamento ) {
+int *dadosMaisProximos( int dado, infArq *todos, int qtd, int qtdElemTreinamento, int *combinacao, int tamCombinacao ) {
     int *indexDosProximos = (int*)malloc(sizeof(int)*qtd);
     double *distanciaDosProximos = (double*)malloc(sizeof(double)*qtd);
     preencheComInt( indexDosProximos, qtd, 0 );
@@ -104,7 +114,7 @@ int *dadosMaisProximos( int dado, infArq *todos, int qtd, int qtdElemTreinamento
         if( dado == aux ) {
             continue;
         }
-        double distancia = distanciaDados( todos[dado], todos[aux] );
+        double distancia = distanciaDados( todos[dado], todos[aux], combinacao, tamCombinacao );
 //         printf("distancia: %lf\n", distancia);
         int indexMaior = retornaIndexMaior( distanciaDosProximos, qtd );
         if( distancia < distanciaDosProximos[indexMaior] ) {
