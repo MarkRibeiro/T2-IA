@@ -4,14 +4,14 @@
 #include "algoritmoKNN.h"
 
 enum Algoritmo {
-    ALG1,
-    ALG2
+    KNN,
+    ADD
 };
 
 int contains( char *string, char *substring );
 
 void atribuindoInfosArquivo( infArq *cmds, FILE *f );
 
-void printaArquivo( infArq *cmds );
+void printaArquivo( infArq *cmds, int eleNum );
 
 void embaralhar(infArq *vet, int vetSize);

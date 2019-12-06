@@ -9,7 +9,7 @@ enum PROP {
 	UM_TERCO ,
 	DOIS_TERCOS ,
 	INTEIRO
-}
+};
 
 struct infoArquivo {
 	double sepalLength;

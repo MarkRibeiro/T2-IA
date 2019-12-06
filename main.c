@@ -7,14 +7,17 @@ int main( int argc, char *argv[ ] ) {
     int qtdElemTreinamento;
     int qtd, attNum;
     int entradaCerta = 1; // 0 - falso.  1 - correto
-    if( (f = fopen("iris.data", "r") ) == NULL) {
-        printf("Erro na abertura do arquivo\n");
-        return 0;
-    }
+    int eleNum;
+    int prop;
     int tamCombinacao = argc-4;
     int *combinacao = (int*)malloc(sizeof(int)*(tamCombinacao));
     if( contains(argv[1], "knn" ) ) {
-        algoritmo = ALG1;
+        if( (f = fopen("iris.data", "r") ) == NULL) {
+            printf("Erro na abertura do arquivo\n");
+            return 0;
+        }
+        algoritmo = KNN;
+        eleNum = 150;
         if( argc < 5 ) {
             entradaCerta = 0;
         }
@@ -29,9 +32,31 @@ int main( int argc, char *argv[ ] ) {
             }
             aux++;
         }
-    } else if( contains(argv[1], "alg2" ) ) {
-        algoritmo = ALG2;
+    } else if( contains(argv[1], "add" ) ) {
+
+        algoritmo = ADD;
+        if(argc != 4){
+            entradaCerta = 0;
+        }
         attNum = atoi(argv[2]);
+        if(attNum > 2){
+            entradaCerta = 0;
+        }
+        if( (f = fopen(argv[3], "r") ) == NULL) {
+            printf("Erro na abertura do arquivo\n");
+            return 0;
+        }
+        if(contains(argv[3], "1_3")){
+            eleNum = 50;
+            prop = 0;
+        } else if(contains(argv[3], "2_3")){
+            eleNum = 100;
+            prop = 1;
+        } else {
+            eleNum = 150;
+            prop = 2;
+        }
+
     } else {
         entradaCerta = 0;
     }
@@ -42,14 +67,14 @@ int main( int argc, char *argv[ ] ) {
     }
 
     // Alocando estrutura com infos do arq inserido      
-    infArq *cmds = (infArq*) malloc(150 * sizeof(infArq));
+    infArq *cmds = (infArq*) malloc(eleNum * sizeof(infArq));
 
     atribuindoInfosArquivo( cmds, f);
-    embaralhar( cmds, 150);
+    embaralhar( cmds, eleNum);
     
     int acerto = 0;
-    if( algoritmo == ALG1 ) {
-        for( int idx = qtdElemTreinamento; idx < 150; idx ++ ) {
+    if( algoritmo == KNN ) {
+        for( int idx = qtdElemTreinamento; idx < eleNum; idx ++ ) {
             // int qtdElem = QUANTIDADE DE ELEMENTOS PRÓXIMOS --> estou marretando no código, mas podemos colocar como valor de entrada.
             // int indx = INDEX DO ELEMENTO A SER TESTADO E VERIFICADO. --> temos que entender o que precisaremos fazer. se vao ser varios ou soment 1 elemento
             //int indx = 78;
@@ -70,13 +95,13 @@ int main( int argc, char *argv[ ] ) {
         }
         printf( "Quantidade de Elementos: %d\nQuantidade de Elementos Treinamento: %d\n", qtdElem, qtdElemTreinamento );
     }
-    if( algoritmo == ALG2 ) {
-        for( int idx = 0; idx < 150; idx ++ ) {
+    if( algoritmo == ADD ) {
+        for( int idx = 0; idx < eleNum; idx ++ ) {
         // int qtd = QUANTIDADE DE ELEMENTOS PRÓXIMOS --> estou marretando no código, mas podemos colocar como valor de entrada.
         // int indx = INDEX DO ELEMENTO A SER TESTADO E VERIFICADO. --> temos que entender o que precisaremos fazer. se vao ser varios ou soment 1 elemento
             //int indx = 78;
             int debug = 0;
-            int result = algoritmoADD( cmds[idx], attNum );
+            int result = algoritmoADD( cmds[idx], attNum, prop );
             if( debug ) {
                 if( result == IRIS_SETOSA ) {
                     printf(" index %d é IRIS SETOSA \n", idx);
@@ -101,8 +126,8 @@ int main( int argc, char *argv[ ] ) {
     return 0;
 }
 
-void printaArquivo( infArq *cmds ) {
-    for( int aux = 0; aux < 150; aux++ ) {
+void printaArquivo( infArq *cmds, int eleNum ) {
+    for( int aux = 0; aux < eleNum; aux++ ) {
         printf( "[%d]%.1f,%.1f,%.1f,%.1f,", aux, (cmds[aux].sepalLength), (cmds[aux].sepalWidth), (cmds[aux].petalLength), (cmds[aux].petalWidth));
         if( cmds[aux].tipo == IRIS_SETOSA ) {
             printf("IRIS_SETOSA\n");

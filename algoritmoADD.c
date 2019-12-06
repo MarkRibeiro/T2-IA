@@ -27,7 +27,7 @@ int DEBUG;
  */
 
 int algoritmoADD( infArq elem, int attNum, int prop ) {
-	if(prop == UM_TERCOS)
+	if(prop == UM_TERCO)
 	{
 		if(attNum == 1){
 			if( elem.petalWidth <= 0.4 )
