@@ -7,9 +7,9 @@ enum TIPOS {
 };
 
 struct infoArquivo {
-	float sepalLength;
-	float sepalWidth;
-	float petalLength;
-	float petalWidth;
+	double sepalLength;
+	double sepalWidth;
+	double petalLength;
+	double petalWidth;
 	int tipo;
 }; typedef struct infoArquivo infArq;

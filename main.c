@@ -3,7 +3,7 @@
 int main( int argc, char *argv[ ] ) {
     int algoritmo;
     FILE *f;
-    int qtd;
+    int qtd, attNum;
     if( (f = fopen("iris.data", "r") ) == NULL) {
             printf("Erro na abertura do arquivo\n");
             return 0;
@@ -19,6 +19,7 @@ int main( int argc, char *argv[ ] ) {
             qtd = atoi(argv[2]);
         } else if( contains(argv[1], "alg2" ) ) {
             algoritmo = ALG2;
+            attNum = atoi(argv[2]);
         } else {
             printf("Insira um algoritmo válido! alg1 ou alg2\n");
             return 0;
@@ -57,18 +58,40 @@ int main( int argc, char *argv[ ] ) {
         }
     }
     
-    printf( "Quantidade de Elementos: %d\nAcertos: %d\n", qtd, acerto );
+    if( algoritmo == ALG2 ) {
+        for( int idx = 0; idx < 150; idx ++ ) {
+        // int qtd = QUANTIDADE DE ELEMENTOS PRÓXIMOS --> estou marretando no código, mas podemos colocar como valor de entrada.
+        // int indx = INDEX DO ELEMENTO A SER TESTADO E VERIFICADO. --> temos que entender o que precisaremos fazer. se vao ser varios ou soment 1 elemento
+            //int indx = 78;
+            int debug = 0;
+            int result = algoritmoADD( cmds[idx], attNum );
+            if( debug ) {
+                if( result == IRIS_SETOSA ) {
+                    printf(" index %d é IRIS SETOSA \n", idx);
+                } else if( result == IRIS_VERSICOLOUR ) {
+                    printf(" index %d é IRIS_VERSICOLOUR \n", idx);
+                } else if( result == IRIS_VIRGINICA ) {
+                    printf(" index %d é IRIS_VIRGINICA \n", idx);
+                }
+            }
+            if( result == cmds[idx].tipo ) {
+                acerto++;
+            }
+        }
+    }
+    printf( "Acertos: %d\n", acerto );
     // Printa valores lidos:
     //printaArquivo( cmds );
 
     free(cmds);
     fclose(f);
+
     return 0;
 }
 
 void printaArquivo( infArq *cmds ) {
     for( int aux = 0; aux < 150; aux++ ) {
-        printf( "%f,%f,%f,%f,", (cmds[aux].sepalLength), (cmds[aux].sepalWidth), (cmds[aux].petalLength), (cmds[aux].petalWidth));
+        printf( "[%d]%.1f,%.1f,%.1f,%.1f,", aux, (cmds[aux].sepalLength), (cmds[aux].sepalWidth), (cmds[aux].petalLength), (cmds[aux].petalWidth));
         if( cmds[aux].tipo == IRIS_SETOSA ) {
             printf("IRIS_SETOSA\n");
         } else if( cmds[aux].tipo == IRIS_VERSICOLOUR ) {
@@ -92,7 +115,7 @@ void atribuindoInfosArquivo( infArq *cmds, FILE *f ) {
     char tipo[20];
     int aux = 0;
 
-    while( fscanf (f, "%f,%f,%f,%f,%s\n", &(cmds[aux].sepalLength), &(cmds[aux].sepalWidth), &(cmds[aux].petalLength), &(cmds[aux].petalWidth), tipo) != EOF ){
+    while( fscanf (f, "%lf,%lf,%lf,%lf,%s\n", &(cmds[aux].sepalLength), &(cmds[aux].sepalWidth), &(cmds[aux].petalLength), &(cmds[aux].petalWidth), tipo) != EOF ){
         if( contains(tipo, "setosa") ) {
             cmds[aux].tipo = IRIS_SETOSA;
         } else if( contains(tipo, "versicolor") ) {

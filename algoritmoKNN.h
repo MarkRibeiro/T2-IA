@@ -1,4 +1,4 @@
-#include "InfoArquivo.h"
+#include "algoritmoADD.h"
 
 double distanciaDados( infArq d1, infArq d2);
 int *dadosMaisProximos( int dado, infArq *todos, int qtd );
