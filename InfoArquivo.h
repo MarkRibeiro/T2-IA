@@ -5,6 +5,11 @@ enum TIPOS {
     IRIS_VERSICOLOUR ,
     IRIS_VIRGINICA
 };
+enum PROP {
+	UM_TERCO ,
+	DOIS_TERCOS ,
+	INTEIRO
+}
 
 struct infoArquivo {
 	double sepalLength;
