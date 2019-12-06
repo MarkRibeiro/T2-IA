@@ -28,10 +28,10 @@ int DEBUG;
  * 
  */
 
-int algoritmoKNN( infArq *todos, int qtd, int idx, int debug ) {
+int algoritmoKNN( infArq *todos, int qtd, int qtdElemTreinamento, int idx, int debug ) {
     DEBUG = debug;
     int *dadosProximos = (int*)malloc(sizeof(int)*qtd);
-    dadosProximos = dadosMaisProximos( idx, todos, qtd );
+    dadosProximos = dadosMaisProximos( idx, todos, qtd, qtdElemTreinamento );
     int *contadorPorTipo = (int*)malloc(sizeof(int)*NUM_TIPOS);
     if( DEBUG ) {
         printf("index selecionado %d e seus dados:\n", idx);
@@ -95,12 +95,12 @@ int retornaIndexMaior( double *distanciaDosProximos, int qtd ) {
     
 }
 
-int *dadosMaisProximos( int dado, infArq *todos, int qtd ) {
+int *dadosMaisProximos( int dado, infArq *todos, int qtd, int qtdElemTreinamento ) {
     int *indexDosProximos = (int*)malloc(sizeof(int)*qtd);
     double *distanciaDosProximos = (double*)malloc(sizeof(double)*qtd);
     preencheComInt( indexDosProximos, qtd, 0 );
     preencheComDouble( distanciaDosProximos, qtd, 99.0 );
-    for( int aux = 0; aux < 150; aux++ ) {
+    for( int aux = 0; aux < qtdElemTreinamento; aux++ ) {
         if( dado == aux ) {
             continue;
         }

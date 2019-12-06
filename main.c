@@ -3,45 +3,48 @@
 int main( int argc, char *argv[ ] ) {
     int algoritmo;
     FILE *f;
-    int qtd;
+    int qtdElem;
+    int qtdElemTreinamento;
     if( (f = fopen("iris.data", "r") ) == NULL) {
             printf("Erro na abertura do arquivo\n");
             return 0;
         }
-
-    if( argc >= 2 ) {
-        if( contains(argv[1], "alg1" ) ) {
-            algoritmo = ALG1;
-            if( argc != 3 ) {
-                printf("Insira o número de elementos\n");
-                return 0;
-            }
-            qtd = atoi(argv[2]);
-        } else if( contains(argv[1], "alg2" ) ) {
-            algoritmo = ALG2;
-        } else {
-            printf("Insira um algoritmo válido! alg1 ou alg2\n");
-            return 0;
+    int entradaCerta = 1; // 0 - falso.  1 - correto
+    if( argc < 2 ) {
+        entradaCerta = 0;
+    }
+    if( contains(argv[1], "knn" ) ) {
+        algoritmo = ALG1;
+        if( argc != 4 ) {
+            entradaCerta = 0;
         }
-        
-    } else if( argc != 3 ) {
-        printf("Execute o programa assim:\n> ./main <algoritmo>\n> algoritmo pode ser alg1 ou alg2.\nEX: ./main alg1\n\n");
+        qtdElem = atoi(argv[2]);
+        qtdElemTreinamento = atoi(argv[3]);
+    } else if( contains(argv[1], "alg2" ) ) {
+        algoritmo = ALG2;
+    } else {
+        entradaCerta = 0;
+    }
+    
+    if( !entradaCerta ) {
+        printf("Execute o programa assim:\nPara AlgKNN:\n> ./main knn <num_elementos> <num_elementos_treinamento>\n> algoritmo pode ser alg1 ou alg2.\nEX: ./main alg1\n\n");
         return 0;
-    } 
+    }
 
     // Alocando estrutura com infos do arq inserido      
     infArq *cmds = (infArq*) malloc(150 * sizeof(infArq));
 
     atribuindoInfosArquivo( cmds, f);
-        
+    embaralhar( cmds, 150);
+    
     int acerto = 0;
     if( algoritmo == ALG1 ) {
-        for( int idx = 0; idx < 150; idx ++ ) {
-        // int qtd = QUANTIDADE DE ELEMENTOS PRÓXIMOS --> estou marretando no código, mas podemos colocar como valor de entrada.
-        // int indx = INDEX DO ELEMENTO A SER TESTADO E VERIFICADO. --> temos que entender o que precisaremos fazer. se vao ser varios ou soment 1 elemento
+        for( int idx = qtdElemTreinamento; idx < 150; idx ++ ) {
+            // int qtdElem = QUANTIDADE DE ELEMENTOS PRÓXIMOS --> estou marretando no código, mas podemos colocar como valor de entrada.
+            // int indx = INDEX DO ELEMENTO A SER TESTADO E VERIFICADO. --> temos que entender o que precisaremos fazer. se vao ser varios ou soment 1 elemento
             //int indx = 78;
             int debug = 0;
-            int result = algoritmoKNN( cmds, qtd, idx, debug );
+            int result = algoritmoKNN( cmds, qtdElem, qtdElemTreinamento, idx, debug );
             if( debug ) {
                 if( result == IRIS_SETOSA ) {
                     printf(" index %d é IRIS SETOSA \n", idx);
@@ -57,7 +60,8 @@ int main( int argc, char *argv[ ] ) {
         }
     }
     
-    printf( "Quantidade de Elementos: %d\nAcertos: %d\n", qtd, acerto );
+    printf( "Quantidade de Elementos: %d\nQuantidade de Elementos Treinamento: %d\n", qtdElem, qtdElemTreinamento );
+    printf( "Acertos: %d\n", acerto);
     // Printa valores lidos:
     //printaArquivo( cmds );
 
@@ -103,4 +107,16 @@ void atribuindoInfosArquivo( infArq *cmds, FILE *f ) {
         aux++;
         
     }
+}
+
+void embaralhar(infArq *vet, int vetSize)
+{
+	for (int i = 0; i < vetSize; i++)
+	{
+		int r = rand() % vetSize;
+
+		infArq temp = vet[i];
+		vet[i] = vet[r];
+		vet[r] = temp;
+	}
 }
