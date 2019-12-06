@@ -21,6 +21,7 @@ int main( int argc, char *argv[ ] ) {
         qtdElemTreinamento = atoi(argv[3]);
     } else if( contains(argv[1], "alg2" ) ) {
         algoritmo = ALG2;
+        attNum = atoi(argv[2]);
     } else {
         entradaCerta = 0;
     }
