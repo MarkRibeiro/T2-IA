@@ -1,16 +1,23 @@
 #include"main.h"
+#include"time.h"
+
+
+const int NUM_EMBARALHADAS = 100;
 
 int main( int argc, char *argv[ ] ) {
     int algoritmo;
     FILE *f;
     int qtdElem;
     int qtdElemTreinamento;
-    int qtd, attNum;
+    int attNum;
     int entradaCerta = 1; // 0 - falso.  1 - correto
     int eleNum;
     int prop;
     int tamCombinacao = argc-4;
     int *combinacao = (int*)malloc(sizeof(int)*(tamCombinacao));
+    
+    time_t initAlg = time(0);
+    
     if( contains(argv[1], "knn" ) ) {
         if( (f = fopen("iris.data", "r") ) == NULL) {
             printf("Erro na abertura do arquivo\n");
@@ -69,12 +76,22 @@ int main( int argc, char *argv[ ] ) {
     // Alocando estrutura com infos do arq inserido      
     infArq *cmds = (infArq*) malloc(eleNum * sizeof(infArq));
 
-    atribuindoInfosArquivo( cmds, f);
-    embaralhar( cmds, eleNum);
     
+    atribuindoInfosArquivo( cmds, f);
+    time_t finalAprendizado = time(0);
+    
+    
+    for( int i = 0; i < NUM_EMBARALHADAS; i++ ) {
+        if ( embaralhar( cmds, eleNum) %2 ) {
+            i++;
+        }
+    }
+    time_t inicioElemento;
+    time_t finalElemento;
     int acerto = 0;
     if( algoritmo == KNN ) {
         for( int idx = qtdElemTreinamento; idx < eleNum; idx ++ ) {
+            inicioElemento = time(0);
             // int qtdElem = QUANTIDADE DE ELEMENTOS PRÓXIMOS --> estou marretando no código, mas podemos colocar como valor de entrada.
             // int indx = INDEX DO ELEMENTO A SER TESTADO E VERIFICADO. --> temos que entender o que precisaremos fazer. se vao ser varios ou soment 1 elemento
             //int indx = 78;
@@ -92,11 +109,13 @@ int main( int argc, char *argv[ ] ) {
             if( result == cmds[idx].tipo ) {
                 acerto++;
             }
+            finalElemento = time(0);
         }
         printf( "Quantidade de Elementos: %d\nQuantidade de Elementos Treinamento: %d\n", qtdElem, qtdElemTreinamento );
     }
     if( algoritmo == ADD ) {
         for( int idx = 0; idx < eleNum; idx ++ ) {
+            inicioElemento = time(0);
         // int qtd = QUANTIDADE DE ELEMENTOS PRÓXIMOS --> estou marretando no código, mas podemos colocar como valor de entrada.
         // int indx = INDEX DO ELEMENTO A SER TESTADO E VERIFICADO. --> temos que entender o que precisaremos fazer. se vao ser varios ou soment 1 elemento
             //int indx = 78;
@@ -114,11 +133,14 @@ int main( int argc, char *argv[ ] ) {
             if( result == cmds[idx].tipo ) {
                 acerto++;
             }
+            finalElemento = time(0);
         }
     }
-    printf( "Acertos: %d\n", acerto );
+  //  time_t finalPrograma = time(0);
+    
+    printf( "Acertos: %d\nTempo de Aprendizado: %ld\nTempo de Classificação de um Elemento: %ld\n", acerto, (finalAprendizado - initAlg), (finalElemento - inicioElemento) );
     // Printa valores lidos:
-    //printaArquivo( cmds );
+//     printaArquivo( cmds, eleNum );
 
     free(cmds);
     fclose(f);
@@ -165,14 +187,18 @@ void atribuindoInfosArquivo( infArq *cmds, FILE *f ) {
     }
 }
 
-void embaralhar(infArq *vet, int vetSize)
+int embaralhar(infArq *vet, int vetSize)
 {
+    int r;
 	for (int i = 0; i < vetSize; i++)
 	{
-		int r = rand() % vetSize;
+        srand(time(0));
+		r = rand() % vetSize;
 
 		infArq temp = vet[i];
 		vet[i] = vet[r];
 		vet[r] = temp;
 	}
+	
+	return r;
 }
