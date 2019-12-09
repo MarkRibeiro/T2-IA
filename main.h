@@ -15,3 +15,5 @@ void atribuindoInfosArquivo( infArq *cmds, FILE *f );
 void printaArquivo( infArq *cmds, int eleNum );
 
 int embaralhar(infArq *vet, int vetSize);
+
+void aviso();

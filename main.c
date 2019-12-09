@@ -17,6 +17,11 @@ int main( int argc, char *argv[ ] ) {
     int *combinacao = (int*)malloc(sizeof(int)*(tamCombinacao));
     
     time_t initAlg = time(0);
+
+    if(argc < 3){
+        aviso();
+        return 0;
+    }
     
     if( contains(argv[1], "knn" ) ) {
         if( (f = fopen("iris.data", "r") ) == NULL) {
@@ -69,7 +74,7 @@ int main( int argc, char *argv[ ] ) {
     }
     
     if( !entradaCerta ) {
-        printf("Execute o programa assim:\nPara AlgKNN:\n> ./main knn <num_elementos> <num_elementos_treinamento> <combinacao_de_atributos>\n=> Combinacao de atributos define quais atributos você quer usar: 1-Sepal Length 2-Sepal Width 3- Petal Length 4- Petal Width.\n\tVocê pode utilizar a combinacao que quiser.\n.\nEX1: ./main knn 10 100 3 4\n==> Para rodar o KNN, buscando 10 elementos, com 100 elementos no conjunto de treino e utilizando os atributos Petal para tal.\nEX2: ./main knn 10 100 1 2 3\n==> Para rodar o KNN, buscando 10 elementos, com 100 elementos no conjunto de treino e utilizando os atributos Sepal e Petal Length para tal.\n");
+        aviso();
         return 0;
     }
 
@@ -201,4 +206,8 @@ int embaralhar(infArq *vet, int vetSize)
 	}
 	
 	return r;
+}
+
+void aviso(){
+    printf("Execute o programa assim:\nPara KNN:\n> ./main knn <num_elementos> <num_elementos_treinamento> <combinacao_de_atributos>\n=> Combinacao de atributos define quais atributos você quer usar: 1-Sepal Length 2-Sepal Width 3- Petal Length 4- Petal Width.\nVocê pode utilizar a combinacao que quiser.\n\nEX1: ./main knn 10 100 3 4\n==> Para rodar o KNN, buscando 10 elementos, com 100 elementos no conjunto de treino e utilizando os atributos Petal para tal.\nEX2: ./main knn 10 100 1 2 3\n==> Para rodar o KNN, buscando 10 elementos, com 100 elementos no conjunto de treino e utilizando os atributos Sepal e Petal Length para tal.\n\nPara ADD:\n> ./main add <num_de_atributos> <arquivo_com_dados>\n=> Num de atributos define quantos atributos você quer usar: 1-Petal Width 2-Petal Width e Petal Length.\n=> Arquivo com dados define quantos elementos serao usados: iris.data (150 elementos), iris2_3.data (100 elementos), iris1_3.data (50 elementos)\n\nEX1: ./main add 2 iris1_3.data\n==> Para rodar o ADD, com 50 elementos e atributos Petal para tal.\nEX2: ./main add 1 iris.data\n==> Para rodar o ADD, com 150 elementos e atributo Petal Width para tal.\n");
 }
