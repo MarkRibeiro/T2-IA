@@ -3,30 +3,9 @@
 #include <math.h>
 #include "algoritmoKNN.h"
 
-/*  NUMERO DE TIPOS:
- *    0 Iris Setosa
- *    1 Iris Versicolour
- *    2 Iris Virginica
- *
- ************************/
-
 const int NUM_TIPOS = 3;
 
 int DEBUG;
-
-/* estrutura.
- * 
- * Dado {
- * 
-	float sepalLength;
-	float sepalWidth;
-	float petalLength;
-	float petalWidth;
-    int tipo;
- * }
- * 
- * 
- */
 
 int algoritmoKNN( infArq *todos, int qtd, int qtdElemTreinamento, int idx, int debug, int *combinacao, int tamCombinacao ) {
     DEBUG = debug;
@@ -115,7 +94,6 @@ int *dadosMaisProximos( int dado, infArq *todos, int qtd, int qtdElemTreinamento
             continue;
         }
         double distancia = distanciaDados( todos[dado], todos[aux], combinacao, tamCombinacao );
-//         printf("distancia: %lf\n", distancia);
         int indexMaior = retornaIndexMaior( distanciaDosProximos, qtd );
         if( distancia < distanciaDosProximos[indexMaior] ) {
             indexDosProximos[indexMaior] = aux;

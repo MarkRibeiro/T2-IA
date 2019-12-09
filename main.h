@@ -53,7 +53,38 @@ int contains( char *string, char *substring );
 
 void atribuindoInfosArquivo( infArq *cmds, FILE *f );
 
+/* 
+* printaArquivo
+*  Responsável por imprimir dados lidos do arquivo de banco de dados.
+* 
+*  método:
+*       Recebe um ponteiro para a lista de campos lidos e o número de elementos a ser imprimido.
+*       Imprime todos os dados especificados.
+* 
+*  Parametros:
+*       infArq *cmds -> Ponteiro para estrutura de informações do arquivo 
+*       de entrada
+*       int eleNum -> Inteiro que representa o tamanho do ponteiro de informação do arquivo.
+*  
+*/
+
 void printaArquivo( infArq *cmds, int eleNum );
+
+/* 
+* embaralhar
+*  Responsável por emabaralhar um vetor. Especificamente nesse caso o vetor de elementos para diferentes
+*  conjuntos fossem testados a cada execução.
+* 
+*  método:
+*       Recebe um ponteiro e seu tamanho. A cada elemento gera outro aleatório e faz a substituição desse para outro.
+*       Formando assim, um ponteiro "único" a cada execução.
+* 
+*  Parametros:
+*       infArq *vet -> Ponteiro para estrutura de informações do arquivo 
+*       de entrada
+*       int vetSize -> Inteiro que representa o tamanho do ponteiro de informação do arquivo.
+*  
+*/
 
 int embaralhar(infArq *vet, int vetSize);
 

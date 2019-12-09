@@ -77,8 +77,6 @@ int main( int argc, char *argv[ ] ) {
         aviso();
         return 0;
     }
-
-    // Alocando estrutura com infos do arq inserido      
     infArq *cmds = (infArq*) malloc(eleNum * sizeof(infArq));
 
     
@@ -97,9 +95,6 @@ int main( int argc, char *argv[ ] ) {
     if( algoritmo == KNN ) {
         for( int idx = qtdElemTreinamento; idx < eleNum; idx ++ ) {
             inicioElemento = time(0);
-            // int qtdElem = QUANTIDADE DE ELEMENTOS PRÓXIMOS --> estou marretando no código, mas podemos colocar como valor de entrada.
-            // int indx = INDEX DO ELEMENTO A SER TESTADO E VERIFICADO. --> temos que entender o que precisaremos fazer. se vao ser varios ou soment 1 elemento
-            //int indx = 78;
             int debug = 0;
             int result = algoritmoKNN( cmds, qtdElem, qtdElemTreinamento, idx, debug, combinacao, tamCombinacao );
             if( debug ) {
@@ -121,9 +116,6 @@ int main( int argc, char *argv[ ] ) {
     if( algoritmo == ADD ) {
         for( int idx = 0; idx < eleNum; idx ++ ) {
             inicioElemento = time(0);
-        // int qtd = QUANTIDADE DE ELEMENTOS PRÓXIMOS --> estou marretando no código, mas podemos colocar como valor de entrada.
-        // int indx = INDEX DO ELEMENTO A SER TESTADO E VERIFICADO. --> temos que entender o que precisaremos fazer. se vao ser varios ou soment 1 elemento
-            //int indx = 78;
             int debug = 0;
             int result = algoritmoADD( cmds[idx], attNum, prop );
             if( debug ) {
@@ -141,12 +133,8 @@ int main( int argc, char *argv[ ] ) {
             finalElemento = time(0);
         }
     }
-  //  time_t finalPrograma = time(0);
     
     printf( "Acertos: %d\nTempo de Aprendizado: %ld\nTempo de Classificação de um Elemento: %ld\n", acerto, (finalAprendizado - initAlg), (finalElemento - inicioElemento) );
-    // Printa valores lidos:
-//     printaArquivo( cmds, eleNum );
-
     free(cmds);
     fclose(f);
 

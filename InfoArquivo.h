@@ -45,7 +45,7 @@ enum PROP {
 *       4. Petal Width   =>  petal width
 *		5. Tipo          =>	 class 
 * 
-*   Estrutura escolhida para o armazenamento das distancias foi uma matriz.
+*   Estrutura escolhida para o armazenamento dos dados foi uma vetor.
 * 
 *************************************/
 

@@ -1,10 +1,25 @@
 Para compilar:
 
-gcc -o main main.c algoritmoKNN.c -lm
+gcc -o main main.c algoritmoKNN.c algoritmoADD.c -lm
 
+Execute o programa assim:
 
-para executar:
+Para KNN:
+> ./main knn <num_elementos> <num_elementos_treinamento> <combinacao_de_atributos>
+=> Combinacao de atributos define quais atributos você quer usar: 1-Sepal Length 2-Sepal Width 3- Petal Length 4- Petal Width.
+Você pode utilizar a combinacao que quiser.
 
-./main alg1
-ou
-./main alg2
+EX1: ./main knn 10 100 3 4
+==> Para rodar o KNN, buscando 10 elementos, com 100 elementos no conjunto de treino e utilizando os atributos Petal para tal.
+EX2: ./main knn 10 100 1 2 3
+==> Para rodar o KNN, buscando 10 elementos, com 100 elementos no conjunto de treino e utilizando os atributos Sepal e Petal Length para tal.
+
+Para ADD:
+> ./main add <num_de_atributos> <arquivo_com_dados>
+=> Num de atributos define quantos atributos você quer usar: 1-Petal Width 2-Petal Width e Petal Length.
+=> Arquivo com dados define quantos elementos serao usados: iris.data (150 elementos), iris2_3.data (100 elementos), iris1_3.data (50 elementos)
+
+EX1: ./main add 2 iris1_3.data
+==> Para rodar o ADD, com 50 elementos e atributos Petal para tal.
+EX2: ./main add 1 iris.data
+==> Para rodar o ADD, com 150 elementos e atributo Petal Width para tal.

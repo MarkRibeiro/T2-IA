@@ -3,28 +3,7 @@
 #include <math.h>
 #include "algoritmoADD.h"
 
-/*  NUMERO DE TIPOS:
- *    0 Iris Setosa
- *    1 Iris Versicolour
- *    2 Iris Virginica
- *
- ************************/
-
 int DEBUG;
-
-/* estrutura.
- * 
- * Dado {
- * 
-	float sepalLength;
-	float sepalWidth;
-	float petalLength;
-	float petalWidth;
-    int tipo;
- * }
- * 
- * 
- */
 
 int algoritmoADD( infArq elem, int attNum, int prop ) {
 	if(prop == UM_TERCO)
